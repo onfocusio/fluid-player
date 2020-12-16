@@ -498,7 +498,7 @@ export default function (playerInstance, options) {
                     tmpOptions.adParameters = playerInstance.getAdParametersFromLinear(creativeLinear);
                     tmpOptions.iconClick = playerInstance.getIconClickThroughFromLinear(creativeLinear);
 
-                    if (tmpOptions.adParameters) {
+                    if (tmpOptions.adParameters && tmpOptions.mediaFileList.find(mediaFile => mediaFile.apiFramework === 'VPAID')) {
                         tmpOptions.vpaid = true;
                     }
                 }
@@ -529,7 +529,7 @@ export default function (playerInstance, options) {
                     tmpOptions.creativeType = playerInstance.getCreativeTypeFromStaticResources(creativeNonLinear);
                     tmpOptions.adParameters = playerInstance.getAdParametersFromLinear(creativeNonLinear);
 
-                    if (tmpOptions.adParameters) {
+                    if (tmpOptions.adParameters && tmpOptions.mediaFileList.find(mediaFile => mediaFile.apiFramework === 'VPAID')) {
                         tmpOptions.vpaid = true;
                     }
 
