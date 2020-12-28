@@ -362,6 +362,13 @@ export default function (playerInstance, options) {
 
     // TODO: ???
     playerInstance.callUris = (uris) => {
+        if (!playerInstance.vastCanSendEvents) {
+            for (let i = 0; i < uris.length; i++) {
+                playerInstance.vastEventsQueue.push(uris[i]);
+            };
+            return;
+        }
+
         for (let i = 0; i < uris.length; i++) {
             new Image().src = uris[i];
         }
@@ -833,4 +840,14 @@ export default function (playerInstance, options) {
         playerInstance.removeCTAButton();
         playerInstance.vastLogoBehaviour(false);
     };
+
+    playerInstance.dispatchEnqueuedVastEvents = () => {
+        if (!playerInstance.vastCanSendEvents) {
+            playerInstance.vastCanSendEvents = true;
+            if (playerInstance.vastEventsQueue.length) {
+                playerInstance.callUris(playerInstance.vastEventsQueue);
+                playerInstance.vastEventsQueue = []; // clear the queue.
+            }
+        }
+    }
 }

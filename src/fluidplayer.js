@@ -89,6 +89,9 @@ const fluidPlayerClass = function () {
         self.vpaidTimer = null;
         self.vpaidAdUnit = null;
         self.vastOptions = null;
+        self.vastCanSendEvents = true;
+        self.vastEventsQueue = [];
+
         /**
          * @deprecated Nothing should RELY on this. An internal ID generator
          * should be used where absolutely necessary and DOM objects under FP control
@@ -239,6 +242,7 @@ const fluidPlayerClass = function () {
                 showPlayButton: false,
                 maxAllowedVastTagRedirects: 3,
                 vpaidTimeout: 3000,
+                dispatchEventsOnPlayerInit: true,
 
                 vastAdvanced: {
                     vastLoadedCallback: (function () {
@@ -306,6 +310,10 @@ const fluidPlayerClass = function () {
             } else {
                 self.displayOptions[key] = options[key];
             }
+        }
+
+        if (self.displayOptions.vastOptions.dispatchEventsOnPlayerInit === false) {
+            self.vastCanSendEvents = false;
         }
 
         self.domRef.wrapper = self.setupPlayerWrapper();
@@ -3043,6 +3051,10 @@ const fluidPlayerInterface = function (instance) {
     this.on = (event, callback) => {
         return instance.on(event, callback)
     };
+
+    this.dispatchEnqueuedVastEvents = () => {
+        instance.dispatchEnqueuedVastEvents();
+    }
 }
 
 /**
