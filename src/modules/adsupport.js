@@ -1094,7 +1094,7 @@ export default function (playerInstance, options) {
     playerInstance.switchToMainVideo = () => {
         playerInstance.debugMessage('starting main video');
 
-        playerInstance.domRef.player.src = playerInstance.originalSrc;
+        playerInstance.domRef.player.src = playerInstance.originalSrc || '';
 
         playerInstance.initialiseStreamers();
 
